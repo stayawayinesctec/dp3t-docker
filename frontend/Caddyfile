@@ -1,0 +1,29 @@
+{
+	order try_files after reverse_proxy
+}
+
+# Replace hostname below for http and https://localhost
+localhost
+
+# CovidCode-Service
+reverse_proxy /v1/onset authcodews:8113
+reverse_proxy /v1/authcode authcodews:8113
+
+# Backend
+reverse_proxy /v1/* backendws:8080
+
+# KeyCloak
+reverse_proxy /auth/realms/bag-pts/* keycloak:8080 {
+	header_up Host {host}
+	header_up X-Real-IP {remote}
+	header_up X-Forwarded-For {remote}
+	header_up X-Forwarded-Port {server_port}
+	header_up X-Forwarded-Proto {scheme}
+}
+reverse_proxy /auth/resources/* keycloak:8080
+
+# CovidCode-UI
+try_files {path} /index.html
+file_server /* {
+	root /app
+}

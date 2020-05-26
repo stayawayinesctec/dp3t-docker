@@ -1,0 +1,105 @@
+version: '3'
+
+services:
+  backenddb:
+    image: library/postgres:11.7-alpine
+    environment:
+      - POSTGRES_DB=dpppt
+      - POSTGRES_USER=dpppt
+      - POSTGRES_PASSWORD_FILE=/run/secrets/dp3t_backend_db
+      - TZ=WET
+    volumes:
+      - backenddb:/var/lib/postgresql/data
+      - ./secrets/backend_db.txt:/run/secrets/dp3t_backend_db
+
+  backendws:
+    image: stayawayinesctec/dp3t-backendws
+    build: backendws
+    environment:
+      - DB_URL=jdbc:postgresql://backenddb:5432/dpppt
+      - DB_USER=dpppt
+      - DB_PASSWORD_FILE=/run/secrets/dp3t_backend_db
+      - BACKEND_PRIVATE_FILE=/run/secrets/dp3t_backend_private
+      - BACKEND_PUBLIC_FILE=/run/secrets/dp3t_backend_public
+      - JWTTOKEN_PUBLIC_FILE=/run/secrets/dp3t_authtoken_public
+      - TZ=WET
+    volumes:
+      - ./secrets/backend/private.pem:/run/secrets/dp3t_backend_private
+      - ./secrets/backend/pub.pem:/run/secrets/dp3t_backend_public
+      - ./secrets/authtoken/pub.pem:/run/secrets/dp3t_authtoken_public
+      - ./secrets/backend_db.txt:/run/secrets/dp3t_backend_db
+
+  keycloakdb:
+    image: library/postgres:11.7-alpine
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD_FILE=/run/secrets/dp3t_keycloak_db
+      - TZ=WET
+    volumes:
+      - keycloakdb:/var/lib/postgresql/data
+      - ./secrets/keycloak_db.txt:/run/secrets/dp3t_keycloak_db
+
+  keycloak:
+    image: stayawayinesctec/dp3t-keycloak
+    build: keycloak
+    environment:
+      - DB_VENDOR=postgres
+      - DB_ADDR=keycloakdb
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD_FILE=/run/secrets/dp3t_keycloak_db
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD_FILE=/run/secrets/dp3t_keycloak_admin
+      - PROXY_ADDRESS_FORWARDING=true
+      - TZ=WET
+      # Uncomment the following lines for a test user:
+      #- BAG_USER=user
+      #- BAG_PASSWORD=secret
+    ports:
+      - "8180:8080"
+    volumes:
+      - ./secrets/keycloak_admin.txt:/run/secrets/dp3t_keycloak_admin
+      - ./secrets/keycloak_db.txt:/run/secrets/dp3t_keycloak_db
+
+  authcodedb:
+    image: library/postgres:11.7-alpine
+    environment:
+      - POSTGRES_DB=haauthcode
+      - POSTGRES_USER=haauthcode
+      - POSTGRES_PASSWORD_FILE=/run/secrets/dp3t_authcode_db
+      - TZ=WET
+    volumes:
+      - authcodedb:/var/lib/postgresql/data
+      - ./secrets/authcode_db.txt:/run/secrets/dp3t_authcode_db
+
+  authcodews:
+    image: stayawayinesctec/dp3t-authcodews
+    build: authcodews
+    environment:
+      - DB_URL=jdbc:postgresql://authcodedb:5432/haauthcode
+      - DB_USER=haauthcode
+      - DB_PASSWORD_FILE=/run/secrets/dp3t_authcode_db
+      - JWTTOKEN_PRIVATE_FILE=/run/secrets/dp3t_authtoken_private
+      - TZ=WET
+    volumes:
+      - ./secrets/authtoken/private.pem:/run/secrets/dp3t_authtoken_private
+      - ./secrets/authcode_db.txt:/run/secrets/dp3t_authcode_db
+
+  frontend:
+    image: stayawayinesctec/dp3t-frontend
+    build: frontend
+    volumes:
+      - frontend:/data
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - TZ=WET
+
+volumes:
+  backenddb:
+  keycloakdb:
+  authcodedb:
+  frontend:
+

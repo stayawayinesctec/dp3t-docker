@@ -1,0 +1,5 @@
+# Avoid secrets
+*.pem
+secrets/*.txt
+*.jar
+*.class
