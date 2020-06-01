@@ -39,7 +39,7 @@ unload:
 	docker secret rm dp3t_backend_public || true
 	docker secret rm dp3t_keycloak_admin || true
 	docker secret rm dp3t_keycloak_db || true
-	docker secret rm dp3t_keycloak_ || true
+	docker secret rm dp3t_backend_db || true
 	docker secret rm dp3t_authcode_db || true
 
 clean:
