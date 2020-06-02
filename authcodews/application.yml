@@ -114,11 +114,6 @@ authcodegeneration:
         connectTimeoutSeconds: 5
         readTimeoutSeconds: 5
     service:
-        keycloak:
-            uri: https://localhost
-            realm: "bag-pts"
-            masterPassword: admin
-            clientSecret: secret
         callCountLimit: 1
         codeExpirationDelay: 1440
         deletionCron: "0 30 1 * * ?"
