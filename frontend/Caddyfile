@@ -5,25 +5,42 @@
 # Replace hostname below for http and https://localhost
 localhost
 
-# CovidCode-Service
-reverse_proxy /v1/onset authcodews:8113
-reverse_proxy /v1/authcode authcodews:8113
+# Web services
+route {
+	# CovidCode-Service
+	reverse_proxy /v1/onset authcodews:8113
+	reverse_proxy /v1/authcode authcodews:8113
 
-# Backend
-reverse_proxy /v1/* backendws:8080
-
-# KeyCloak
-reverse_proxy /auth/realms/bag-pts/* keycloak:8080 {
-	header_up Host {host}
-	header_up X-Real-IP {remote}
-	header_up X-Forwarded-For {remote}
-	header_up X-Forwarded-Port {server_port}
-	header_up X-Forwarded-Proto {scheme}
+	# Backend
+	reverse_proxy /v1/* backendws:8080
 }
-reverse_proxy /auth/resources/* keycloak:8080
 
-# CovidCode-UI
-try_files {path} /index.html
-file_server /* {
-	root /app
+# Web apps
+route {
+	header {
+		Strict-Transport-Security "max-age=6307200; includeSubDomains; preload; always"
+		X-Frame-Options "SAMEORIGIN"
+		X-Content-Type-Options "nosniff"
+		X-XSS-Protection "1; mode=block"
+		Content-Security-Policy "default-src 'none'; connect-src 'self'; base-uri 'self'; form-action 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; worker-src 'self'; object-src 'self'; media-src 'self'; frame-ancestors 'none'; manifest-src 'self'"
+		Referrer-Policy "strict-origin"
+		Feature-Policy "geolocation 'none';midi 'none'; sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'none';fullscreen 'self';payment 'none';"
+		Expect-CT "max-age=604800"
+	}
+
+	# KeyCloak
+	reverse_proxy /auth/realms/bag-pts/* keycloak:8080 {
+		header_up Host {host}
+		header_up X-Real-IP {remote}
+		header_up X-Forwarded-For {remote}
+		header_up X-Forwarded-Port {server_port}
+		header_up X-Forwarded-Proto {scheme}
+	}
+	reverse_proxy /auth/resources/* keycloak:8080
+
+	# CovidCode-UI
+	try_files {path} /index.html
+	file_server /* {
+		root /app
+	}
 }
