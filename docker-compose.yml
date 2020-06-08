@@ -13,7 +13,7 @@ services:
       - ./secrets/backend_db.txt:/run/secrets/dp3t_backend_db
 
   backendws:
-    image: stayawayinesctec/dp3t-backendws
+    image: localhost:5000/dp3t-backendws
     build: backendws
     environment:
       - DB_URL=jdbc:postgresql://backenddb:5432/dpppt
@@ -41,7 +41,7 @@ services:
       - ./secrets/keycloak_db.txt:/run/secrets/dp3t_keycloak_db
 
   keycloak:
-    image: stayawayinesctec/dp3t-keycloak
+    image: localhost:5000/dp3t-keycloak
     build: keycloak
     environment:
       - DB_VENDOR=postgres
@@ -74,7 +74,7 @@ services:
       - ./secrets/authcode_db.txt:/run/secrets/dp3t_authcode_db
 
   authcodews:
-    image: stayawayinesctec/dp3t-authcodews
+    image: localhost:5000/dp3t-authcodews
     build: authcodews
     environment:
       - DB_URL=jdbc:postgresql://authcodedb:5432/haauthcode
@@ -87,7 +87,7 @@ services:
       - ./secrets/authcode_db.txt:/run/secrets/dp3t_authcode_db
 
   frontend:
-    image: stayawayinesctec/dp3t-frontend
+    image: localhost:5000/dp3t-frontend
     build: frontend
     volumes:
       - frontend:/data

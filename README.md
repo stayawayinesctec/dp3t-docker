@@ -51,7 +51,7 @@ This project is hardcoded for https://localhost. If you want to use something el
 
 Many parameters of each web-service can be changed in application properties files in `./authcodews` and `./backendws`.
 
-Secrets (keys and passwords) are managed as volumes mounted from the `./secrets` folder. You cam also opt to deploy in swarm-mode using `docker-compose-swarm.yml` after loading secrets with:
+Secrets (keys and passwords) are managed as volumes mounted from the `./secrets` folder. You cam also opt to deploy in swarm-mode with a local registry and using `docker-compose-swarm.yml` after loading secrets with:
 
     make -C secrets load
 

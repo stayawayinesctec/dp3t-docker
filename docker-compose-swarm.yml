@@ -14,7 +14,7 @@ services:
       - dp3t_backend_db
 
   backendws:
-    image: stayawayinesctec/dp3t-backendws
+    image: localhost:5000/dp3t-backendws
     environment:
       - DB_URL=jdbc:postgresql://backenddb:5432/dpppt
       - DB_USER=dpppt
@@ -42,7 +42,7 @@ services:
       - dp3t_keycloak_db
 
   keycloak:
-    image: stayawayinesctec/dp3t-keycloak
+    image: localhost:5000/dp3t-keycloak
     environment:
       - DB_VENDOR=postgres
       - DB_ADDR=keycloakdb
@@ -75,7 +75,7 @@ services:
       - dp3t_authcode_db
 
   authcodews:
-    image: stayawayinesctec/dp3t-authcodews
+    image: localhost:5000/dp3t-authcodews
     environment:
       - DB_URL=jdbc:postgresql://authcodedb:5432/haauthcode
       - DB_USER=haauthcode
@@ -87,7 +87,7 @@ services:
       - dp3t_authtoken_private
 
   frontend:
-    image: stayawayinesctec/dp3t-frontend
+    image: localhost:5000/dp3t-frontend
     volumes:
       - frontend:/data
     ports:
