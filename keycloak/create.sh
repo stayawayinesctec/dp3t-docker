@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 BAG_URL="https://localhost"
-BAG_NAME="CovidCode FOPH"
+BAG_NAME="Health Authority"
 
 function setup_bagpts() {
 	KCADM=/opt/jboss/keycloak/bin/kcadm.sh
@@ -10,7 +10,7 @@ function setup_bagpts() {
 	echo "Waiting for server startup..."
 	while ! curl -s http://localhost:8080/auth -o /dev/null; do sleep 5; done
 
-	echo "KeyCloak configuration for CovidCode BAG starting..."
+	echo "KeyCloak configuration for ${BAG_NAME} starting..."
 	$KCADM config credentials --server http://localhost:8080/auth \
 		--realm master --user $KEYCLOAK_USER --password $KEYCLOAK_PASSWORD
 
@@ -72,7 +72,7 @@ function setup_bagpts() {
 		echo "Added user $uid"
 	fi
 	
-	echo "KeyCloak configuration for CovidCode BAG done."
+	echo "KeyCloak configuration for ${BAG_NAME} done."
 
 	# Bye bye...
 	rm -f /opt/jboss/.keycloak/kcadm.config

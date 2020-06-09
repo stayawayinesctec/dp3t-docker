@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ $# -lt 3 ]; then
+if [ $# -lt 2 ]; then
 	echo $0 "yyyy-mm-dd code"
 	exit 1
 fi

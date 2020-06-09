@@ -3,16 +3,17 @@ FROM node:14 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
-COPY CovidCode-UI/package.json /app/package.json
+COPY authcode-ui/package.json /app/package.json
 RUN npm install
-RUN npm install -g @angular/cli@7.3.9
-COPY CovidCode-UI/. /app
-COPY environment.prod.ts src/environments/
-RUN ng build --output-path=dist --configuration=production
+
+COPY authcode-ui/. /app
+COPY env /app/.env
+RUN npm run generate
 
 FROM library/caddy:alpine
 
 WORKDIR /app
 
 COPY --from=build /app/dist .
+RUN rm /app/README.md
 COPY Caddyfile /etc/caddy/Caddyfile

@@ -1,9 +1,9 @@
-[submodule "frontend/CovidCode-UI"]
-	path = frontend/CovidCode-UI
-	url = https://github.com/admin-ch/CovidCode-UI.git
 [submodule "authcodews/CovidCode-Service"]
 	path = authcodews/CovidCode-Service
 	url = https://github.com/admin-ch/CovidCode-Service.git
 [submodule "backendws/dp3t-sdk-backend"]
 	path = backendws/dp3t-sdk-backend
 	url = https://github.com/DP-3T/dp3t-sdk-backend.git
+[submodule "frontend/authcode-ui"]
+	path = frontend/authcode-ui
+	url = https://github.com/stayawayinesctec/authcode-ui.git
