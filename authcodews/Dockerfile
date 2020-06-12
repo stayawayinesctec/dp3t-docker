@@ -3,6 +3,7 @@ FROM openjdk:11 AS build
 RUN apt-get update && apt-get install -y maven
 WORKDIR /build/
 COPY CovidCode-Service /build
+RUN rm -f ./src/main/java/ch/admin/bag/covidcode/authcodegeneration/web/monitoring/ActuatorSecurity.java
 RUN mvn package -Dmaven.test.skip=true
 
 FROM openjdk:11.0.7-jre-slim

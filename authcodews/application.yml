@@ -100,7 +100,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: prometheus,health
   endpoint:
     jolokia:
       enabled: true
@@ -120,11 +120,6 @@ authcodegeneration:
         onsetSubtractionDays: 3
         minSleepTime: 3
         maxSleepTime: 8
-    monitor:
-        prometheus:
-            user: "prometheus"
-            password: "{noop}secret"
-            secure: false
     jwt:
         issuer: "https://localhost"
         token-validity: 300000

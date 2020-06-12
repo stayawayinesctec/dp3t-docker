@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   backenddb:
-    image: library/postgres:12.3
+    image: localhost:5000/dp3t-postgres
     environment:
       - POSTGRES_DB=dpppt
       - POSTGRES_USER=dpppt
@@ -30,7 +30,7 @@ services:
       - dp3t_authtoken_public
 
   keycloakdb:
-    image: library/postgres:12.3
+    image: localhost:5000/dp3t-postgres
     environment:
       - POSTGRES_DB=keycloak
       - POSTGRES_USER=keycloak
@@ -63,7 +63,7 @@ services:
       - dp3t_keycloak_db
 
   authcodedb:
-    image: library/postgres:12.3
+    image: localhost:5000/dp3t-postgres
     environment:
       - POSTGRES_DB=haauthcode
       - POSTGRES_USER=haauthcode
@@ -96,11 +96,22 @@ services:
     environment:
       - TZ=WET
 
+  prometheus:
+    image: localhost:5000/dp3t-prom
+    build: prometheus
+    volumes:
+      - prometheus:/prometheus
+    ports:
+      - "9090:9090"
+    environment:
+      - TZ=WET
+
 volumes:
   backenddb:
   keycloakdb:
   authcodedb:
   frontend:
+  prometheus:
 
 secrets:
   dp3t_keycloak_admin:

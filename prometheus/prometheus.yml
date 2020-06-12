@@ -1,0 +1,69 @@
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: []
+    scheme: http
+    timeout: 10s
+    api_version: v1
+scrape_configs:
+- job_name: prometheus
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+  - targets:
+    - localhost:9090
+- job_name: databases
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+  - targets:
+    - backenddb:9187
+    - authcodedb:9187
+    - keycloakdb:9187
+- job_name: authcode
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: '/actuator/prometheus'
+  scheme: http
+  static_configs:
+  - targets:
+    - backendws:8080
+- job_name: backend
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: '/actuator/prometheus'
+  scheme: http
+  static_configs:
+  - targets:
+    - backendws:8080
+- job_name: keycloak
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: '/auth/realms/master/metrics'
+  scheme: http
+  static_configs:
+  - targets:
+    - keycloak:8080
+- job_name: frontend
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: '/metrics'
+  scheme: http
+  static_configs:
+  - targets:
+    - frontend:9180
+ 

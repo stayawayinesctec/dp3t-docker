@@ -1,12 +1,20 @@
 {
+	order prometheus first
+	order respond before reverse_proxy
 	order try_files after reverse_proxy
 }
 
 # Replace hostname below for http and https://localhost
 localhost
 
+prometheus :9180
+
 # Web services
 route {
+	respond /actuator* "Access denied" 403 {
+		close
+	}
+
 	# CovidCode-Service
 	reverse_proxy /v1/onset authcodews:8113
 	reverse_proxy /v1/authcode authcodews:8113
@@ -27,6 +35,9 @@ route {
 		Feature-Policy "geolocation 'none';midi 'none'; sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'none';fullscreen 'self';payment 'none';"
 		Expect-CT "max-age=604800"
 	}
+	respond /auth/realms/bag-pts/metrics* "Access denied" 403 {
+		close
+	}
 
 	# KeyCloak
 	reverse_proxy /auth/realms/bag-pts/* keycloak:8080 {
@@ -38,7 +49,7 @@ route {
 	}
 	reverse_proxy /auth/resources/* keycloak:8080
 
-	# CovidCode-UI
+	# AuthCode-UI
 	try_files {path} /index.html
 	file_server /* {
 		root /app

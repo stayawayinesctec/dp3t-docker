@@ -23,7 +23,9 @@ function setup_bagpts() {
 		echo "Cannot create $REALM: already exists?"
 		return 1
 	fi
-	
+
+	$KCADM update events/config -s "eventsEnabled=true" -s "adminEventsEnabled=true" -s "eventsListeners+=metrics-listener"
+
 	csid=$($KCADM create client-scopes -r $REALM -s name=ha-ui -s protocol=openid-connect \
 		-s attributes.\"include.in.token.scope\"=true \
 		-s attributes.\"display.in.consent.screen\"=false --id)
