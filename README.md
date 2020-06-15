@@ -48,8 +48,11 @@ This project is hardcoded for https://localhost. If you want to use something el
     ./keycloak/create.sh
     ./tests/get.sh
     ./tests/post.sh
+    ./prometheus/prometheus.yml
 
 Many parameters of each web-service can be changed in application properties files in `./authcodews` and `./backendws`.
+
+Prometheus is available at port 9090. Configuration assumes that hosts are running node-exporters in port 9100 and that docker daemon is exposing metrics at port 9323.
 
 Secrets (keys and passwords) are managed as volumes mounted from the `./secrets` folder. You cam also opt to deploy in swarm-mode with a local registry and using `docker-compose-swarm.yml` after loading secrets with:
 
