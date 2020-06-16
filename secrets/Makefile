@@ -1,3 +1,5 @@
+LC_CTYPE=C
+
 create: keycloak_admin.txt backend_db.txt keycloak_db.txt authcode_db.txt
 	make -C authtoken
 	make -C backend
