@@ -54,8 +54,8 @@ services:
       - PROXY_ADDRESS_FORWARDING=true
       - TZ=WET
       # Uncomment the following lines for a test user:
-      - BAG_USER=user
-      - BAG_PASSWORD=secret
+      #- BAG_USER=user
+      #- BAG_PASSWORD=secret
     ports:
       - "8180:8080"
     volumes:
