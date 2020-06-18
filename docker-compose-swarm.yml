@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   backenddb:
-    image: library/postgres:11.7-alpine
+    image: library/postgres:12.3
     environment:
       - POSTGRES_DB=dpppt
       - POSTGRES_USER=dpppt
@@ -30,7 +30,7 @@ services:
       - dp3t_authtoken_public
 
   keycloakdb:
-    image: library/postgres:11.7-alpine
+    image: library/postgres:12.3
     environment:
       - POSTGRES_DB=keycloak
       - POSTGRES_USER=keycloak
@@ -63,7 +63,7 @@ services:
       - dp3t_keycloak_db
 
   authcodedb:
-    image: library/postgres:11.7-alpine
+    image: library/postgres:12.3
     environment:
       - POSTGRES_DB=haauthcode
       - POSTGRES_USER=haauthcode
