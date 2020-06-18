@@ -10,32 +10,44 @@ COPY authcode-ui/. /app
 COPY env /app/.env
 RUN npm run generate
 
-FROM alpine:latest as generator
+FROM golang:alpine as generator
 
-ARG SSL_PATH=/etc/ssl
+ARG LEGO_VERSION=v3.7.0
+ENV SSL_PATH=/etc/ssl/app
 
 RUN set -eux; \
     apk update --no-cache; \
-    apk add openssl; \
+    apk add --no-cache openssl git; \
     mkdir -p "$SSL_PATH"; \
-    openssl genrsa -des3 -passout pass:00000000 -out "${SSL_PATH}"/key.pem 2048; \
-    cp "${SSL_PATH}"/key.pem "${SSL_PATH}"/key.pem.orig; \
-    openssl rsa -passin pass:00000000 -in "${SSL_PATH}"/key.pem.orig -out "${SSL_PATH}"/key.pem; \
-    openssl req -new -key "${SSL_PATH}"/key.pem -out "${SSL_PATH}"/cert.csr -subj "/C=PT/ST=PT/L=Braga/O=INESC TEC/OU=Research/CN=COVID-19"; \
-    openssl x509 -req -days 3650 -in "${SSL_PATH}"/cert.csr -signkey "${SSL_PATH}"/key.pem -out "${SSL_PATH}"/cert.pem
+    openssl genrsa -des3 -passout pass:00000000 -out "${SSL_PATH}"/app.key 2048; \
+    cp "${SSL_PATH}"/app.key "${SSL_PATH}"/app.key.orig; \
+    openssl rsa -passin pass:00000000 -in "${SSL_PATH}"/app.key.orig -out "${SSL_PATH}"/app.key; \
+    openssl req -new -key "${SSL_PATH}"/app.key -out "${SSL_PATH}"/app.csr -subj "/C=PT/ST=PT/L=Braga/O=INESC TEC/OU=Research/CN=COVID-19"; \
+    openssl x509 -req -days 3650 -in "${SSL_PATH}"/app.csr -signkey "${SSL_PATH}"/app.key -out "${SSL_PATH}"/app.crt
 
+RUN git clone https://github.com/go-acme/lego.git
+
+WORKDIR /go/lego
+RUN set -eux; \
+    git checkout tags/"${LEGO_VERSION}" -b stable; \
+    go build -ldflags="-w -s" -o lego.bin ./cmd/lego
 
 FROM nginx:stable-alpine
 
 RUN apk upgrade --no-cache
 
-ARG SSL_PATH=/etc/ssl
+ENV SSL_PATH=/etc/ssl/app
+ENV DOMAINS localhost
+ENV EMAIL me@example.com
 
 COPY nginx/ /etc/nginx/
-COPY --from=generator "${SSL_PATH}"/key.pem "${SSL_PATH}"/key.pem
-COPY --from=generator "${SSL_PATH}"/cert.pem "${SSL_PATH}"/cert.pem
+COPY --from=generator "${SSL_PATH}"/app.key "${SSL_PATH}"/app.key
+COPY --from=generator "${SSL_PATH}"/app.crt "${SSL_PATH}"/app.crt
+COPY --from=generator /go/lego/lego.bin /usr/local/bin/lego
+COPY run.sh /usr/local/bin/run.sh
 
 WORKDIR /app
 
 COPY --from=build /app/dist .
-RUN rm /app/README.md
+
+CMD ["/usr/local/bin/run.sh"]
