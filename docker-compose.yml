@@ -96,6 +96,9 @@ services:
       - "443:443"
     environment:
       - TZ=WET
+      #- EMAIL=valid@email.address
+      #- DOMAINS=domain.name www.domain.name
+
 
 volumes:
   backenddb:
