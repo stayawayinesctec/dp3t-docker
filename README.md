@@ -1,6 +1,6 @@
 # dp3t-docker
 
-This is a self-contained distribution of Decentralized Privacy-Preserving Proximity Tracing (DP^3T) server components, including the CovidCode health authority code generation service and a generic UI, packaged with Docker and orchestrated with docker-compose or Swarm. It allows you to quickly setup a server environment to test the DP^3T mobile applications.
+This is a self-contained distribution of Decentralized Privacy-Preserving Proximity Tracing (DP^3T) server components, including the CovidCode health authority code generation service and a generic UI, packaged with Docker and orchestrated with docker-compose or Swarm. It allows you to quickly setup a server environment to test the DP^3T mobile applications. It is compatible with both the "low-cost" and GAEN versions of the protocols.
 
 **DISCLAIMER:** This is for testing purposes only. Don't use this in a public network.
 
@@ -63,4 +63,9 @@ The CovidCode service is available at: https://github.com/admin-ch
 
 The generic health authority UI is available at: https://github.com/stayawayinesctec/authcode-ui.git
 
-This setup has been packaged by the [STAYAWAY team](https://stayaway.inesctec.pt) at [INESCTEC](https://inesctec.pt). It is available at https://github.com/stayawayinesctec/dp3t-docker
+## Copyright and license
+
+Copyright (c) 2020 INESC TEC. Developed by the [STAYAWAY team](https://github.com/stayawayinesctec).
+Distribution license EUPL 1.2. See details in file LICENSE.
+
+Note that running these Docker recipes will download binaries or source code of various software packages. Check each of them for copyright information and the corresponding usage and distribution licenses that apply to resulting Docker images.

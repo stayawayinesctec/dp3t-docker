@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# file_env function from: https://github.com/docker-library/postgres
+#-----
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
@@ -21,6 +23,7 @@ file_env() {
 	export "$var"="$val"
 	unset "$fileVar"
 }
+#-----
 
 file_env JWTTOKEN_PRIVATE
 file_env DB_USER
