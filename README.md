@@ -59,7 +59,7 @@ Secrets (keys and passwords) are managed as volumes mounted from the `./secrets`
 
 The DP3T project is available at: https://github.com/DP-3T
 
-The CovidCode service is available at: https://github.com/admin-ch
+The CovidCode service is available at: https://github.com/admin-ch/CovidCode-Service
 
 The generic health authority UI is available at: https://github.com/stayawayinesctec/authcode-ui.git
 
