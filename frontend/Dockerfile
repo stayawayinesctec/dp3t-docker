@@ -3,7 +3,7 @@ FROM node:14 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
-COPY authcode-ui/package.json /app/package.json
+COPY authcode-ui/package.json authcode-ui/package-lock.json /app/
 RUN npm install
 
 COPY authcode-ui/. /app
