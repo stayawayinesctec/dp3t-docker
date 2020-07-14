@@ -118,8 +118,7 @@ authcodegeneration:
         codeExpirationDelay: 1440
         deletionCron: "0 30 1 * * ?"
         onsetSubtractionDays: 3
-        minSleepTime: 3
-        maxSleepTime: 8
+        requestTime: 500
     monitor:
         prometheus:
             user: "prometheus"
