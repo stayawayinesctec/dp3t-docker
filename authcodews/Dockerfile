@@ -1,4 +1,4 @@
-FROM openjdk:11 AS build
+FROM openjdk:11.0.7 AS build
 
 RUN apt-get update && apt-get install -y maven
 WORKDIR /build/
