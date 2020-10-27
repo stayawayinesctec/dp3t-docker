@@ -2,7 +2,8 @@ FROM openjdk:11 AS build
 
 RUN apt-get update && apt-get install -y maven
 WORKDIR /build/
-COPY CovidCode-Service-build /build
+COPY CovidCode-Service /build
+RUN sed -i '/.*injectAllReactorProjects.*/i <skip>true</skip>' /build/pom.xml
 RUN mvn package -Dmaven.test.skip=true
 
 FROM openjdk:11.0.7-jre-slim
