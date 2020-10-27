@@ -36,10 +36,7 @@ or just add the submodules to an existing clone with:
 
 Build all images with:
 
-    make images
-
-(Directly using docker-compose build is no longer enough, as reproducible builds of the
-web services need access to the corresponding .git directories.)
+    docker-compose build
 
 ## Customization
 
