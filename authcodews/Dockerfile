@@ -1,4 +1,4 @@
-FROM openjdk:11.0.7 AS build
+FROM openjdk:11.0.9 AS build
 
 RUN apt-get update && apt-get install -y maven
 WORKDIR /build/
@@ -6,7 +6,7 @@ COPY CovidCode-Service /build
 RUN sed -i '/.*injectAllReactorProjects.*/i <skip>true</skip>' /build/pom.xml
 RUN mvn package -Dmaven.test.skip=true
 
-FROM openjdk:11.0.7-jre-slim
+FROM openjdk:11.0.9-jre-slim
 
 RUN useradd app
 WORKDIR /app/

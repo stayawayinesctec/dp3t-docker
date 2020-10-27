@@ -1,4 +1,4 @@
-FROM node:14 as build
+FROM node:14.14.0 as build
 
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
@@ -10,7 +10,7 @@ COPY authcode-ui/. /app
 COPY env /app/.env
 RUN npm run generate
 
-FROM library/caddy:alpine
+FROM library/caddy:2.2.1-alpine
 
 WORKDIR /app
 
