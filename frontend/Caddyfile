@@ -13,6 +13,7 @@ route {
 
 	# Backend
 	reverse_proxy /v1/* backendws:8080
+	reverse_proxy /v2/* backendws:8080
 }
 
 # Web apps

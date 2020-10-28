@@ -16,6 +16,7 @@ services:
   backendws:
     image: localhost:5000/dp3t-backendws
     environment:
+      - COUNTRY=CH
       - DB_URL=jdbc:postgresql://backenddb:5432/dpppt
       - DB_USER=dpppt
       - DB_PASSWORD_FILE=/run/secrets/dp3t_backend_db

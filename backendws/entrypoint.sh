@@ -31,4 +31,4 @@ file_env JWTTOKEN_PUBLIC
 file_env DB_USER
 file_env DB_PASSWORD
 
-exec java -jar $JAVA_OPTS -Dlogging.config=/app/logback.xml -Dspring.config.location=/app/application.properties /app/dpppt-backend-sdk-ws.jar
+exec java -jar $JAVA_OPTS -Dlogging.config=/app/logback.xml -Dspring.config.location=/app/application.properties -Dws.origin.country=$COUNTRY /app/dpppt-backend-sdk-ws.jar
