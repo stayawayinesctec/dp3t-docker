@@ -11,10 +11,10 @@ BASE=https://localhost
 OPT="-s --insecure"
 
 code=$2$3$4$5
-keydate=$(date --date=$1 +%s%3N)
-key=$(echo $(date -Ins) "padpadpadpadpadpadpad" | cut -c-31 | base64)
+keydate=$(($(date --date=$1 +%s)/600))
+key=$(echo $(date -Ins) "padpadpadpadpadpadpad" | cut -c-15 | base64)
 
-echo "Code: $code, keyDate: $keydate, key: $key"
+echo "Code: $code, rollingstart: $keydate, key: $key"
 
 repl=$(curl $OPT \
 	-X POST -H "accept: */*" \
@@ -35,6 +35,42 @@ curl $OPT \
 	-X POST -H "accept: */*" \
 	-H "Content-Type: application/json" \
 	-H "Authorization: Bearer $token" \
-  	-d"{\"key\":\"$key\",\"keyDate\":$keydate}" \
-  	$BASE/v1/exposed
+	-d @- \
+  	$BASE/v2/gaen/exposed <<EOF
+{
+	"international": 0,
+	"gaenKeys": [
+		{"keyData":"$key","rollingStartNumber":$keydate,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":0},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1},
+		{"keyData":"$key","rollingStartNumber":0,"rollingPeriod":144,"transmissionRiskLevel":4,"fake":1}
+	]
+}
+EOF
 
